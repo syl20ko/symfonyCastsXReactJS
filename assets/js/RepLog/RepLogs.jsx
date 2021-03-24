@@ -14,17 +14,28 @@ function calculateTotalWeightLifted(repLogs) {
 }
 
 const RepLogs = ({
+  withHeart,
   highlightedRowId,
   onRowClick,
   repLogs,
-  onNewItemSubmit,
+  onAddRepLog,
+  numberOfHearts,
+  onHeartChange,
 }) => {
-  
-
+  let heart = "";
+  if (withHeart) {
+    heart = <h1>{"ok".repeat(numberOfHearts)}</h1>;
+  }
   return (
     <div className="col-md-7">
-      <h2>Lift History</h2>
-
+      <h2>Lift Stuff! {heart}</h2>
+      <input
+        type="range"
+        value={numberOfHearts}
+        onChange={(e) => {
+          onHeartChange(+e.target.value);
+        }}
+      />
       <table className="table table-striped">
         <thead>
           <tr>
@@ -48,16 +59,23 @@ const RepLogs = ({
           </tr>
         </tfoot>
       </table>
-      <RepLogCreator onNewItemSubmit={onNewItemSubmit}/>
+      <div className="row">
+        <div className="col-md-6">
+          <RepLogCreator onAddRepLog={onAddRepLog} />
+        </div>
+      </div>
     </div>
   );
 };
 
 RepLogs.propTypes = {
+  withHeart: PropTypes.bool,
   highlightedRowId: PropTypes.any,
   onRowClick: PropTypes.func.isRequired,
-  onNewItemSubmit: PropTypes.func.isRequired,
+  onAddRepLog: PropTypes.func.isRequired,
   repLogs: PropTypes.array.isRequired,
+  numberOfHearts: PropTypes.number.isRequired,
+  onHeartChange: PropTypes.func.isRequired,
 };
 
 export default RepLogs;
